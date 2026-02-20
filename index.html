@@ -57,6 +57,17 @@ th{background:#f8f9fc;}
 .export-mode .no-export{display:none;}
 .export-mode{background:#fff!important;}
 @media(max-width:600px){.flex{flex-direction:column}}
+.export-mode h3 {
+    display:none;
+}
+
+.export-mode table {
+    font-size:14px;
+}
+
+.export-mode #areaCetak {
+    padding:30px;
+}    
 </style>
 </head>
 <body>
@@ -72,12 +83,12 @@ th{background:#f8f9fc;}
 </div>
 
 <br>
-
+<div class="no-export">
 <label>Gaji Bulan Ini</label>
 <input type="number" id="gaji" placeholder="Masukkan gaji">
 
 <h3>Tambah Pengeluaran</h3>
-
+</div>
 <div class="flex">
 <input type="text" id="nama" placeholder="Nama Pengeluaran (Contoh: Bayar Kontrakan)">
 <select id="kategori">
