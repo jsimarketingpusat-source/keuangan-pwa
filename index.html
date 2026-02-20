@@ -131,6 +131,22 @@ Sisa Saldo: Rp <span id="sisa">0</span>
 </div>
 
 <script>
+const kategoriUrutan = [
+"Tempat Tinggal (Hunian)",
+"Utilitas & Energi",
+"Internet & Komunikasi",
+"Makanan & Konsumsi",
+"Transportasi",
+"Asuransi & Proteksi",
+"Kesehatan",
+"Pendidikan",
+"Hiburan & Rekreasi",
+"Kewajiban & Cicilan",
+"Tabungan & Investasi",
+"Belanja Kebutuhan Pribadi",
+"Zakat, Infak, Sedekah & Sosial (ZIS)",
+"Dana Tak Terduga / Lain-lain"
+];    
 const bulanSelect=document.getElementById("bulan");
 const tahunSelect=document.getElementById("tahun");
 const list=document.getElementById("list");
@@ -156,11 +172,59 @@ function simpan(){
 }
 
 function load(){
-    list.innerHTML=""; total=0;
+    list.innerHTML="";
+    total=0;
+
     const data=JSON.parse(localStorage.getItem(keyStorage()));
-    if(!data)return;
+    if(!data) return;
+
     document.getElementById("gaji").value=data.gaji;
-    data.items.forEach(i=>tambah(i.nama,i.kategori,i.jumlah,false));
+
+    // Group data by kategori
+    const grouped = {};
+    data.items.forEach(item=>{
+        if(!grouped[item.kategori]){
+            grouped[item.kategori] = [];
+        }
+        grouped[item.kategori].push(item);
+        total += item.jumlah;
+    });
+
+    // Render sesuai urutan kategori
+    kategoriUrutan.forEach(kategori=>{
+        if(grouped[kategori]){
+            
+            // Header kategori
+            const headerRow = document.createElement("tr");
+            headerRow.innerHTML = `
+                <td colspan="4" style="
+                    background:#eef2ff;
+                    font-weight:700;
+                    padding:12px;
+                    border-top:2px solid #4e73df;
+                ">
+                    ${kategori}
+                </td>
+            `;
+            list.appendChild(headerRow);
+
+            // Item di dalam kategori
+            grouped[kategori].forEach(item=>{
+                const row=document.createElement("tr");
+                row.dataset.jumlah=item.jumlah;
+                row.innerHTML=`
+                <td>${item.nama}</td>
+                <td>${item.kategori}</td>
+                <td>Rp ${format(item.jumlah)}</td>
+                <td class="no-export">
+                    <button class="danger" onclick="hapus(this)">Hapus</button>
+                </td>
+                `;
+                list.appendChild(row);
+            });
+        }
+    });
+
     hitung();
 }
 
