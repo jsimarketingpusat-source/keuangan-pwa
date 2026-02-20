@@ -1,4 +1,4 @@
-const CACHE_NAME = "keuangan-cache-v100";
+const CACHE_NAME = "keuangan-cache-v101";
 const urlsToCache = [
   "./",
   "./index.html"
@@ -22,6 +22,7 @@ self.addEventListener("fetch", function(event) {
   );
 
 });
+
 
 
 
