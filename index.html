@@ -229,26 +229,31 @@ function load(){
 }
 
 function tambah(nm=null,kat=null,jml=null,save=true){
-    const nama=nm||document.getElementById("nama").value;
-    const kategori=kat||document.getElementById("kategori").value;
-    const jumlah=jml||parseInt(document.getElementById("jumlah").value);
-    if(!nama||!jumlah)return alert("Isi lengkap");
 
-    const row=document.createElement("tr");
-    row.dataset.jumlah=jumlah;
-    row.innerHTML=`
-    <td>${nama}</td>
-    <td>${kategori}</td>
-    <td>Rp ${format(jumlah)}</td>
-    <td class="no-export"><button class="danger" onclick="hapus(this)">Hapus</button></td>
-    `;
-    list.appendChild(row);
+    const nama = nm || document.getElementById("nama").value;
+    const kategori = kat || document.getElementById("kategori").value;
+    const jumlah = jml || parseInt(document.getElementById("jumlah").value);
 
-    total+=jumlah;
-    hitung();
-    if(save)simpan();
+    if(!nama || !jumlah) return alert("Isi lengkap");
+
+    // Ambil data lama
+    const data = JSON.parse(localStorage.getItem(keyStorage())) || {
+        gaji: document.getElementById("gaji").value,
+        items: []
+    };
+
+    data.items.push({
+        nama: nama,
+        kategori: kategori,
+        jumlah: jumlah
+    });
+
+    localStorage.setItem(keyStorage(), JSON.stringify(data));
+
     document.getElementById("nama").value="";
     document.getElementById("jumlah").value="";
+
+    load(); // render ulang supaya grouping aktif
 }
 
 function hapus(btn){
