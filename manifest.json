@@ -1,6 +1,6 @@
 {
-  "name": "Rekap Keuangan Bulanan",
-  "short_name": "Keuangan",
+  "name": "Keuangan Viki",
+  "short_name": "Viki",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#4e73df",
@@ -17,4 +17,5 @@
       "type": "image/png"
     }
   ]
+
 }
